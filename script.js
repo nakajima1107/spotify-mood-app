@@ -1,11 +1,12 @@
-// 1. 感情キーワードと、対応するSpotifyプレイリストIDの定義
+// 1. 感情キーワードと、対応するSpotifyプレイリストのURL定義
+// (アプリ起動用に、Spotify公式のWebリンクを設定しています)
 const moodMap = {
-    happy: "37i9dQZF1DXdPec7aLTREg",     // Happy Hits! (元気が出るポップス)
-    sad: "37i9dQZF1DX3YSRunp9v9e",       // Sad Songs (心に寄り添うバラード)
-    tired: "37i9dQZF1DWZ0JDw08Gw36",     // Chill Lofi Study Beats (疲れを癒やすチル・ローファイ)
-    angry: "37i9dQZF1DX1tyCD927uEk",     // Heavy Metal (怒りを吹き飛ばす激しい曲)
-    energetic: "37i9dQZF1DX76t638Vqet8", // Beast Mode (やる気を爆上げするワークアウト曲)
-    romance: "37i9dQZF1DX7r97f606TXJ"    // Romantic Ballads (エモい・恋愛気分)
+    happy: "https://open.spotify.com/playlist/37i9dQZF1DXdPec7aLTREg",     // Happy Hits!
+    sad: "https://open.spotify.com/playlist/37i9dQZF1DX3YSRunp9v9e",       // Sad Songs
+    tired: "https://open.spotify.com/playlist/37i9dQZF1DWZ0JDw08Gw36",     // Chill Lofi Study Beats
+    angry: "https://open.spotify.com/playlist/37i9dQZF1DX1tyCD927uEk",     // Heavy Metal
+    energetic: "https://open.spotify.com/playlist/37i9dQZF1DX76t638Vqet8", // Beast Mode
+    romance: "https://open.spotify.com/playlist/37i9dQZF1DX7r97f606TXJ"    // Romantic Ballads
 };
 
 // 2. ボタンがタップされたときの処理
@@ -35,27 +36,29 @@ document.getElementById('searchBtn').addEventListener('click', () => {
         selectedMood = 'romance';
     }
 
-    // 4. 決定した感情に対応するプレイリストIDを取得
-    const playlistId = moodMap[selectedMood];
+    // 4. 決定した感情に対応するSpotifyのURLを取得
+    const spotifyUrl = moodMap[selectedMood];
     
-    // 5. Spotifyの「埋め込みプレイヤー」を画面に生成（★ここを修正しました）
+    // 5. 【ココを変更】画面の中に埋め込むのではなく、直接Spotifyのページ/アプリを開く！
+    // 3秒後に自動でジャンプします
     const playerContainer = document.getElementById('playerContainer');
     playerContainer.innerHTML = `
-        <iframe 
-            src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" 
-            width="100%" 
-            height="380" 
-            frameBorder="0" 
-            allowfullscreen="" 
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-            loading="lazy">
-        </iframe>
+        <div style="text-align: center; padding: 20px; border: 2px dashed #1DB954; border-radius: 8px;">
+            <p style="color: #1DB954; font-weight: bold; font-size: 18px;">🎧 音楽が見つかりました！</p>
+            <p>まもなく自動的にSpotifyが開きます...</p>
+            <a href="${spotifyUrl}" target="_blank" style="display: inline-block; background-color: #1DB954; color: white; text-decoration: none; padding: 12px 24px; border-radius: 25px; font-weight: bold; margin-top: 10px;">
+                自動で開かない場合はここをタップ
+            </a>
+        </div>
     `;
 
-    // 6. 非表示になっていた結果エリアを画面に表示する
+    // 結果エリアを表示
     const resultArea = document.getElementById('resultArea');
     resultArea.classList.remove('hidden');
-
-    // スマホの画面を結果部分まで自動スクロールさせる
     resultArea.scrollIntoView({ behavior: 'smooth' });
+
+    // 1.5秒後に自動でSpotifyのプレイリスト画面へジャンプ
+    setTimeout(() => {
+        window.open(spotifyUrl, '_blank');
+    }, 1500);
 });
