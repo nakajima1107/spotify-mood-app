@@ -1,5 +1,4 @@
 // 1. 感情キーワードと、対応するSpotifyプレイリストIDの定義
-// (Spotify公式の厳選されたプレイリストのIDを設定しています)
 const moodMap = {
     happy: "37i9dQZF1DXdPec7aLTREg",     // Happy Hits! (元気が出るポップス)
     sad: "37i9dQZF1DX3YSRunp9v9e",       // Sad Songs (心に寄り添うバラード)
@@ -39,7 +38,7 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     // 4. 決定した感情に対応するプレイリストIDを取得
     const playlistId = moodMap[selectedMood];
     
-    // 5. Spotifyの「埋め込みプレイヤー」を画面に生成
+    // 5. Spotifyの「埋め込みプレイヤー」を画面に生成（★ここを修正しました）
     const playerContainer = document.getElementById('playerContainer');
     playerContainer.innerHTML = `
         <iframe 
@@ -57,6 +56,6 @@ document.getElementById('searchBtn').addEventListener('click', () => {
     const resultArea = document.getElementById('resultArea');
     resultArea.classList.remove('hidden');
 
-    // スマホの画面を結果部分まで自動スクロールさせる（小さな優しさ機能）
+    // スマホの画面を結果部分まで自動スクロールさせる
     resultArea.scrollIntoView({ behavior: 'smooth' });
 });
